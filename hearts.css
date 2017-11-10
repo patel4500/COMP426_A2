@@ -1,0 +1,106 @@
+body {
+  background-color: #4B9CD3; /*Carolina blue*/
+}
+h1 {
+  font-style: oblique;
+  text-align: center;
+}
+.scoreboard{
+  border: 1px solid #13294B; /*Navy*/
+  padding: 5px;
+  width: 15%;
+}
+h2 {
+  font-style: oblique;
+  padding: 0px;
+}
+ul{
+  padding: 0px;
+}
+li{
+  list-style-type: none;
+}
+.trickInfo{
+  border: 1px solid #13294B; /*Navy*/
+  padding: 5px;
+  width: 225px;
+  margin: 0px auto;
+}
+.playedCards{
+  margin: 0px auto;
+  width: 300px;
+  height: 300px;
+  border: 1px solid black;
+  display: grid;
+  grid-template-rows: 33% 33% 33%;
+  grid-template-columns: 33% 33% 33%;
+}
+.EAST{
+  grid-column-start: 3;
+  grid-row-start: 2;
+  grid-column-end: span 1;
+  grid-row-end: span 1;
+  align-self: center;
+  justify-self: center;
+}
+.NORTH{
+  grid-column-start: 2;
+  grid-row-start: 1;
+  grid-column-end: span 1;
+  grid-row-end: span 1;
+  align-self: center;
+  justify-self: center;
+}
+.SOUTH{
+  grid-column-start: 2;
+  grid-row-start: 3;
+  grid-column-end: span 1;
+  grid-row-end: span 1;
+  align-self: center;
+  justify-self: center;
+}
+.WEST{
+  grid-column-start: 1;
+  grid-row-start: 2;
+  grid-column-end: span 1;
+  grid-row-end: span 1;
+  align-self: center;
+  justify-self: center;
+}
+.played{
+  display: inline-block;
+  justify-content: center;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.CardsInHand{
+  display: flex;
+}
+.Hand{
+  align-items: center;
+}
+.Button{
+  align-self: center;
+  justify-content: center;
+  text-align: center;
+}
+.card{
+  border: 1px solid black;
+  text-align: center;
+}
+.select{
+  border: 1px solid red;
+  text-align: center;
+}
+.playable{
+  border: 1px solid yellow;
+  text-align: center;
+}
+.select.playable{
+  border: 1px solid red;
+  text-align: center;
+}
+h3{
+  text-align: center;
+}

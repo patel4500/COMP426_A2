@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hearts</title>
+    <script src="jquery-3.2.1.js"></script>
+    <script src="Card.js"></script>
+    <script src="Hearts.js"></script>
+    <script src="HeartsMatch.js"></script>
+    <script src="DumbAI.js"></script>
+    <script src="main.js"></script>
+    <script src="ClickPlayer.js"></script>
+    <link href="hearts.css" rel ="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+  </head>
+
+  <body>
+    <h1>Game of Hearts</h1>
+    <div class= "scoreboard">
+      <h2>Scoreboard:</h2>
+      <ul>
+        <li id="nScore">Player 1: ?</li>
+        <li id="eScore">Player 2: ?</li>
+        <li id="sScore">Player 3: ?</li>
+        <li id="wScore">Player 4: ?</li>
+      </ul>
+    </div>
+    <div class= "trickInfo">
+      <div class="trickNo">Current Trick: ?</div>
+      <div class="trickWinner">Current Trick Winner: ?</div>
+    </div>
+    <div class="playedCards">
+      <div class= "NORTH">
+        <div class="CardOnTable">?</div>
+      </div>
+      <div class= "EAST">
+        <div class="CardOnTable">?</div>
+      </div>
+      <div class= "SOUTH">
+        <div class="CardOnTable">?</div>
+      </div>
+      <div class= "WEST">
+        <div class="CardOnTable">?</div>
+      </div>
+    </div>
+    <div class="Hand">
+      <h3>Your Hand:</h3>
+      <div class="Button"></div>
+      <div class="CardsInHand">
+        <div class= "card"></div>
+        <div class= "card"></div>
+        <div class= "card"></div>
+        <div class= "card"></div>
+        <div class= "card"></div>
+        <div class= "card"></div>
+        <div class= "card"></div>
+        <div class= "card"></div>
+        <div class= "card"></div>
+        <div class= "card"></div>
+        <div class= "card"></div>
+        <div class= "card"></div>
+        <div class= "card"></div>
+      </div>
+    </div>
+  </body>
+</html>
