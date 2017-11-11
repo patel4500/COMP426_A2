@@ -136,7 +136,7 @@ var play = function() {
       var rank = div.card.getRank();
       var suit = div.card.getSuit();
       var toPlay = new Card(rank,suit);
-      div.classList.toggleClass('select');
+      div.classList.remove('select');
       current_game.playCard(toPlay, player_key);
       console.log("Card Played by User");
       showPlayable();
