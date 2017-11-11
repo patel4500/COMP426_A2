@@ -80,7 +80,12 @@ li{
 .Hand{
   align-items: center;
 }
-.Button{
+.passButton{
+  align-self: center;
+  justify-content: center;
+  text-align: center;
+}
+.playButton{
   align-self: center;
   justify-content: center;
   text-align: center;
@@ -103,4 +108,7 @@ li{
 }
 h3{
   text-align: center;
+}
+div:empty{
+  display: none;
 }

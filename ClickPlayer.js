@@ -4,6 +4,7 @@ var ClickPlayer = function (name, ui_div) {
     var position = null;
     var current_game = null;
     var player_key = null;
+    var trick_no = null;
 
 
     this.setupMatch = function (hearts_match, pos) {
@@ -22,6 +23,7 @@ var ClickPlayer = function (name, ui_div) {
     	game_of_hearts.registerEventHandler(Hearts.GAME_STARTED_EVENT, function (e) {
             console.log("Game Started");
             showNames(match);
+            trick_no = 0;
             if(e.getPassType() !== Hearts.PASS_NONE){
               pass(e.getPassType);}
           });
@@ -29,6 +31,7 @@ var ClickPlayer = function (name, ui_div) {
       game_of_hearts.registerEventHandler(Hearts.TRICK_START_EVENT, function(e) {
             console.log("Trick Started");
             clearTheTable();
+            trick_no += 1;
             if(position == e.getStartPos()){
               play();
             };
@@ -43,7 +46,7 @@ var ClickPlayer = function (name, ui_div) {
       game_of_hearts.registerEventHandler(Hearts.TRICK_COMPLETE_EVENT, function(e) {
             console.log("Trick Complete");
             var trick = e.getTrick();
-            showWinner(trickInfo);
+            showWinner(trick);
           });
       game_of_hearts.registerEventHandler(Hearts.CARD_PLAYED_EVENT, function(e) {
             var pPos = e.getPosition();
@@ -53,6 +56,7 @@ var ClickPlayer = function (name, ui_div) {
           });
       game_of_hearts.registerEventHandler(Hearts.GAME_OVER_EVENT, function(e) {
             console.log("Game Over. Scores Updated");
+            trick_no = null;
             updateScoreboard(match);
           });
     }
@@ -89,42 +93,50 @@ var showPlayable = function() {
       var div = document.getElementsByClassName('card')[i];
       div.card = all[i];
       div.innerHTML = parseRank(all[i].getRank()) + " of " + parseSuit(all[i].getSuit());
-      div.classList.add('playable');
+      div.classList.toggle('playable');
+      if (div.classList.contains('select')){
+        div.classList.toggle('select');
+      }
       console.log("Entered Playable Loop");
     } else {
       var div = document.getElementsByClassName('card')[i];
       div.card = all[i];
       div.innerHTML = parseRank(all[i].getRank()) + " of " + parseSuit(all[i].getSuit());
+      if (div.classList.contains('select')){
+        div.classList.toggle('select');
+      }
     }
   }
 }
 
 var play = function() {
-  $('.Button').empty().html("<div>Select a Card to Play</div>");
-  showPlayable();
+  $('.playButton').empty().html("<div>Select a Card to Play</div>");
+  //showPlayable();
 
   $('.card').click(function(){
-    if ($(this).hasClass('playable')){
-      $(this).addClass('select');
+    if ($(this).hasClass('playable') && ($(this).hasClass('select') == false)){
+      $(this).toggleClass('select');
+      console.log("Selected the card");
       if ($('.select').length == 1){
-        $('.Button').empty().html("<button id= 'playButton' type='button'>Play</button>");
+        $('.playButton').empty().html("<button type='button'>Play</button>");
       }
     } else{
       if($(this).hasClass('select')){
         $(this).toggleClass('select');
-        $('.Button').empty().html("<div>Select a Card to Play</div");
+        console.log("Unselected the card");
+        $('.playButton').empty().html("<div>Select a Card to Play</div>");
       }
     }
   });
 
-  $(".Button").click(function() {
+  $(".playButton").click(function() {
       console.log("Play Button Clicked");
-      $('.Button').empty();
+      $('.playButton').empty();
       var div = document.getElementsByClassName('select')[0];
       var rank = div.card.getRank();
       var suit = div.card.getSuit();
       var toPlay = new Card(rank,suit);
-      div.classList.toggle('select');
+      div.classList.toggleClass('select');
       current_game.playCard(toPlay, player_key);
       console.log("Card Played by User");
       showPlayable();
@@ -133,7 +145,7 @@ var play = function() {
 
 var showWinner = function(trick) {
   var win = trick.getWinner();
-  $('.trickWinner').empty().html("Trick Winner: " + win.getPlayerName());
+  $('.trickWinner').empty().html("Trick Winner: " + match.getPlayerName(win));
 }
 
 var updateScoreboard = function(match) {
@@ -153,25 +165,27 @@ var showNames = function(match) {
 }
 var pass = function(passType) {
   var direction = passDirection(passType);
-  $('.Button').empty().html("<div>Select 3 Cards to Pass " + direction + "</div");
+  $('.passButton').empty().html("<div>Select 3 Cards to Pass " + direction + "</div");
   showPlayable();
 
   $('.card').click(function(){
-    if ($('.select').length < 3){
-      $(this).toggleClass('select');
-      if ($('.select').length == 3){
-        $('.Button').empty().html("<button id= 'passButton' type='button'>Pass</button>");
-      }
-    } else{
-      if($(this).hasClass('select')){
+    if(trick_no==0){
+      if ($('.select').length < 3){
         $(this).toggleClass('select');
-        $('.Button').empty().html("<div>Select 3 Cards to Pass " + direction + "</div");
+        if ($('.select').length == 3){
+          $('.passButton').empty().html("<button type='button'>Pass</button>");
+        }
+      } else{
+        if($(this).hasClass('select')){
+          $(this).toggleClass('select');
+          $('.passButton').empty().html("<div>Select 3 Cards to Pass " + direction + "</div");
+        }
       }
     }
   });
 
-    $(".Button").click(function(){
-      $('.Button').empty();
+    $(".passButton").click(function(){
+      $('.passButton').empty();
       var toPass = [];
       for (i=0; i < $('.select').length; i++){
         var div = document.getElementsByClassName('select')[i];
@@ -179,13 +193,9 @@ var pass = function(passType) {
         var suit = div.card.getSuit();
         toPass.push(new Card(rank,suit));
       }
-      $('.select').each(function(){
-        $(this).toggleClass('select');
-      });
       current_game.passCards(toPass, player_key);
       showPlayable();
     });
-
 }
 
 var parseSuit = function(suit) {
